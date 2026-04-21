@@ -1,0 +1,236 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Wallets ─────────────────────────────────────────────────────────────────
+
+model Wallet {
+  address    String   @id
+  label      String?
+  sybilScore Float    @default(0)
+  firstSeen  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  entries LeaderboardRow[]
+  raffles RaffleEntry[]
+  rebates RebateClaim[]
+  signals SybilRiskSignal[]
+}
+
+// ─── Campaigns ────────────────────────────────────────────────────────────────
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  type        IncentiveType
+  status      CampaignStatus @default(DRAFT)
+
+  // Protocol source
+  protocolName   String
+  programAddress String?
+  idlId          String?
+  instructionId  String?
+  customEventId  String?
+  customEventName String?
+
+  // Torque reference
+  torqueOfferId String? // recurringOfferId from Torque
+
+  // Reward config
+  rewardToken      String // mint address or "SOL"
+  rewardPool       Float
+  rebatePercentage Float?
+  // raffleBuckets: [{amount: number, count: number}]
+  raffleBuckets    Json?
+  raffleWeighting  RaffleWeighting?
+  // allocations for direct: [{address: string, amount: number}]
+  allocations      Json?
+  customFormula    String?
+  maxPerParticipant Float?
+
+  // Schedule — evalDurationDays XOR interval (doc rule: not both)
+  startDate        DateTime
+  evalDurationDays Int?
+  epochInterval    EpochInterval?
+  maxIterations    Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  epochs  Epoch[]
+  results CampaignResult[]
+}
+
+// ─── Epochs ──────────────────────────────────────────────────────────────────
+
+model Epoch {
+  id         String      @id @default(cuid())
+  campaignId String
+  campaign   Campaign    @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  startDate  DateTime
+  endDate    DateTime
+  status     EpochStatus @default(ACTIVE)
+  createdAt  DateTime    @default(now())
+
+  rows LeaderboardRow[]
+}
+
+// ─── Leaderboard ─────────────────────────────────────────────────────────────
+
+model LeaderboardRow {
+  id        String    @id @default(cuid())
+  epochId   String
+  epoch     Epoch     @relation(fields: [epochId], references: [id], onDelete: Cascade)
+  wallet    String
+  walletRef Wallet    @relation(fields: [wallet], references: [address])
+  rank      Int
+  score     Float
+  volume    Float
+  rewardAmt Float     @default(0)
+  payStatus PayStatus @default(PENDING)
+  createdAt DateTime  @default(now())
+
+  @@unique([epochId, wallet])
+  @@index([epochId, rank])
+}
+
+// ─── Raffle ───────────────────────────────────────────────────────────────────
+
+model RaffleEntry {
+  id         String    @id @default(cuid())
+  campaignId String
+  wallet     String
+  walletRef  Wallet    @relation(fields: [wallet], references: [address])
+  tickets    Int
+  won        Boolean   @default(false)
+  prizeAmt   Float?
+  drawnAt    DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([campaignId, wallet])
+}
+
+// ─── Rebate Claims ────────────────────────────────────────────────────────────
+
+model RebateClaim {
+  id         String      @id @default(cuid())
+  campaignId String
+  wallet     String
+  walletRef  Wallet      @relation(fields: [wallet], references: [address])
+  volume     Float
+  rebateAmt  Float
+  claimedAt  DateTime?
+  status     ClaimStatus @default(PENDING)
+  createdAt  DateTime    @default(now())
+
+  @@index([campaignId, wallet])
+}
+
+// ─── Trade Events (onchain IDL-parsed) ───────────────────────────────────────
+
+model TradeEvent {
+  id          String   @id @default(cuid())
+  txSignature String   @unique
+  wallet      String
+  programId   String
+  instruction String
+  amountUsd   Float
+  timestamp   DateTime
+  raw         Json
+  createdAt   DateTime @default(now())
+
+  @@index([wallet, timestamp])
+  @@index([programId, timestamp])
+}
+
+// ─── Custom Events (offchain Torque ingestion) ────────────────────────────────
+
+model CustomEvent {
+  id        String   @id @default(cuid())
+  eventName String
+  wallet    String
+  timestamp DateTime
+  data      Json
+  createdAt DateTime @default(now())
+
+  @@index([eventName, wallet])
+  @@index([wallet, timestamp])
+}
+
+// ─── Sybil Risk ──────────────────────────────────────────────────────────────
+
+model SybilRiskSignal {
+  id         String   @id @default(cuid())
+  wallet     String
+  walletRef  Wallet   @relation(fields: [wallet], references: [address])
+  signalType String
+  score      Float
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([wallet])
+}
+
+// ─── Campaign Results ─────────────────────────────────────────────────────────
+
+model CampaignResult {
+  id           String   @id @default(cuid())
+  campaignId   String
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  epochId      String?
+  totalPaid    Float
+  participants Int
+  roi          Float?
+  recordedAt   DateTime @default(now())
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum IncentiveType {
+  LEADERBOARD
+  REBATE
+  RAFFLE
+  DIRECT
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ENDED
+}
+
+enum EpochStatus {
+  ACTIVE
+  EVALUATING
+  DISTRIBUTED
+}
+
+enum EpochInterval {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum PayStatus {
+  PENDING
+  DISTRIBUTED
+  FAILED
+}
+
+enum ClaimStatus {
+  PENDING
+  CLAIMED
+  INELIGIBLE
+}
+
+enum RaffleWeighting {
+  WEIGHTED_BY_METRIC
+  EQUAL_CHANCES
+}
