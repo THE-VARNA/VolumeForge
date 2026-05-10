@@ -7,9 +7,9 @@ import {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await context.params;
   const { searchParams } = new URL(req.url);
   const mode = searchParams.get("mode") as "preview" | "recipients" | "download" | null;
   const epochConfigId = searchParams.get("epochConfigId") ?? undefined;

@@ -1,0 +1,55 @@
+
+> volumeforge@0.1.0 build
+> next build
+
+   ▲ Next.js 15.3.1
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 34.0s
+   Linting and checking validity of types ...
+
+./app/layout.tsx
+27:9  Warning: Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/20) ...
+   Generating static pages (5/20) 
+   Generating static pages (10/20) 
+   Generating static pages (15/20) 
+ ✓ Generating static pages (20/20)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    4.63 kB         152 kB
+├ ○ /_not-found                            986 B         102 kB
+├ ƒ /api/campaigns                         155 B         102 kB
+├ ƒ /api/feed                              155 B         102 kB
+├ ƒ /api/leaderboard                       155 B         102 kB
+├ ƒ /api/torque/events                     155 B         102 kB
+├ ƒ /api/torque/idl                        155 B         102 kB
+├ ƒ /api/torque/incentives                 155 B         102 kB
+├ ƒ /api/torque/incentives/[id]            155 B         102 kB
+├ ƒ /api/torque/incentives/[id]/results    155 B         102 kB
+├ ○ /campaigns                           2.95 kB         151 kB
+├ ƒ /campaigns/[id]                      3.17 kB         155 kB
+├ ○ /campaigns/new                       7.97 kB         152 kB
+├ ○ /connect                             4.11 kB         152 kB
+├ ○ /dashboard                            111 kB         259 kB
+├ ○ /feed                                 4.9 kB         149 kB
+├ ○ /friction-log                        3.16 kB         148 kB
+├ ○ /leaderboard                          2.1 kB         150 kB
+├ ○ /raffle                              3.62 kB         148 kB
+├ ○ /rebate                              4.13 kB         149 kB
+└ ○ /settings                            2.61 kB         147 kB
++ First Load JS shared by all             101 kB
+  ├ chunks/4bd1b696-ccb76d864df0d5b9.js  53.2 kB
+  ├ chunks/684-31eeba023f86c7d1.js       46.2 kB
+  └ other shared chunks (total)          2.06 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
