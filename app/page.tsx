@@ -108,35 +108,49 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-medium text-violet-300 mb-8 border border-violet-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Powered by Torque Protocol — Colosseum Hackathon 2025
+              Powered by Torque Protocol — Colosseum Hackathon 2026
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-              <span className="gradient-text">Retention Engine</span>
+            <motion.h1 
+              className="text-5xl md:text-7xl md:leading-[1.1] font-extrabold tracking-tight mb-6"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <span className="text-slate-200 drop-shadow-sm">Turn Trading Volume</span>
               <br />
-              <span className="text-slate-200">for Solana DEXs</span>
-            </h1>
+              <span className="gradient-text drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">Into Compounding Loyalty</span>
+            </motion.h1>
 
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed text-balance">
-              Convert real trading behavior into live leaderboards, rebates, and raffles.
-              Anti-sybil volume intelligence that suppresses bot-farmed activity and rewards
-              genuine traders — all powered by Torque&apos;s incentive infrastructure.
-            </p>
+            <motion.p 
+              className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Launch live leaderboards, automated rebates, and weighted raffles directly from your Anchor IDL. 
+              Stop one-time airdrop dumpers with built-in Anti-Sybil intelligence — powered natively by the Torque MCP.
+            </motion.p>
 
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+            <motion.div 
+              className="flex items-center justify-center gap-4 flex-wrap"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               <Link
                 href="/dashboard"
-                className="px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all hover:scale-[1.02] glow-violet"
+                className="px-6 py-3 rounded-xl bg-violet-600/90 hover:bg-violet-500 text-white font-semibold text-sm transition-all hover:scale-[1.02] shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] backdrop-blur-md"
               >
                 Open Dashboard
               </Link>
               <Link
                 href="/campaigns/new"
-                className="px-6 py-3 rounded-xl glass hover:bg-white/5 text-slate-200 font-semibold text-sm transition-all"
+                className="px-6 py-3 rounded-xl glass hover:bg-white/10 text-slate-200 font-semibold text-sm transition-all hover:scale-[1.02] shadow-lg border border-white/10"
               >
                 Build Campaign
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -233,7 +247,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-white/[0.06] text-center">
         <p className="text-xs text-muted-foreground">
-          VolumeForge · Colosseum Hackathon 2025 · Powered by{" "}
+          VolumeForge · Colosseum Hackathon 2026 · Powered by{" "}
           <a href="https://torque.so" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:underline">
             Torque Protocol
           </a>
