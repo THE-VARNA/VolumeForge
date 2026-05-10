@@ -235,10 +235,10 @@ export default function LandingPage() {
               ))}
             </div>
             <Link
-              href="/campaigns/new"
+              href="/dashboard"
               className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors"
             >
-              Create First Campaign <ChevronRight className="w-4 h-4" />
+              Launch Dashboard <ChevronRight className="w-4 h-4" />
             </Link>
           </GlassCard>
         </div>
