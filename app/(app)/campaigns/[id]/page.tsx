@@ -36,11 +36,11 @@ const DEMO_EPOCHS = [
 ];
 
 const DEMO_ROWS = [
-  { wallet: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU", rank: 1, score: 842000, volume: 1500000, rewardAmt: 10, payStatus: "DISTRIBUTED" as const, change: 0 },
-  { wallet: "3fAzTkmPgK1FmBEbgQjxjSXTe9rVQ8mN2LbF4d5HmD3P", rank: 2, score: 215000, volume: 380000, rewardAmt: 7.07, payStatus: "DISTRIBUTED" as const, change: 1 },
-  { wallet: "9pTBJv3HyNs7A2VqG6YkZmXeL5MrRp8CwdFbK4NvDtU1", rank: 3, score: 184000, volume: 320000, rewardAmt: 5.77, payStatus: "PENDING" as const, change: -1 },
-  { wallet: "5sKJwPmN8HuT3aLdG9FbE2RqZvX6CnD4SyV7MkA1fBrQ", rank: 4, score: 95000, volume: 170000, rewardAmt: 3.53, payStatus: "PENDING" as const, change: 2 },
-  { wallet: "AkjLP3mN8vT9bCd5KwR6Xq2Zy4Mu7Fs1nYoE8HgJpW2T", rank: 5, score: 72000, volume: 128000, rewardAmt: 3.16, payStatus: "PENDING" as const, change: 0 },
+  { wallet: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU", rank: 1, score: 842000, volume: 1500000, rewardAmt: 10, payStatus: "DISTRIBUTED" as const, trend: 0 },
+  { wallet: "3fAzTkmPgK1FmBEbgQjxjSXTe9rVQ8mN2LbF4d5HmD3P", rank: 2, score: 215000, volume: 380000, rewardAmt: 7.07, payStatus: "DISTRIBUTED" as const, trend: 1 },
+  { wallet: "9pTBJv3HyNs7A2VqG6YkZmXeL5MrRp8CwdFbK4NvDtU1", rank: 3, score: 184000, volume: 320000, rewardAmt: 5.77, payStatus: "PENDING" as const, trend: -1 },
+  { wallet: "5sKJwPmN8HuT3aLdG9FbE2RqZvX6CnD4SyV7MkA1fBrQ", rank: 4, score: 95000, volume: 170000, rewardAmt: 3.53, payStatus: "PENDING" as const, trend: 2 },
+  { wallet: "AkjLP3mN8vT9bCd5KwR6Xq2Zy4Mu7Fs1nYoE8HgJpW2T", rank: 5, score: 72000, volume: 128000, rewardAmt: 3.16, payStatus: "PENDING" as const, trend: 0 },
 ];
 
 export default function CampaignDetailPage({ params }: { params: { id: string } }) {
@@ -152,7 +152,7 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
             Via <span className="font-mono">get_epoch_leaderboard</span> (mode: preview → recipients)
           </p>
         </div>
-        <LeaderboardTable rows={DEMO_ROWS} isLoading={false} />
+        <LeaderboardTable rows={DEMO_ROWS} loading={false} />
       </GlassCard>
     </div>
   );
