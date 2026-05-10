@@ -14,23 +14,19 @@ const EPOCHS = [
   { id: "epoch-1", label: "Epoch 1" },
 ];
 
-const generateRows = (n: number) =>
-  Array.from({ length: n }, (_, i) => ({
-    rank: i + 1,
-    wallet: `${Math.random().toString(36).slice(2, 10)}...${Math.random().toString(36).slice(2, 6)}`.toUpperCase(),
-    score: Math.round((1 - i / n) * 100000 + Math.random() * 5000),
-    volume: Math.round((1 - i / n) * 1500000 + Math.random() * 100000),
-    rewardAmt: parseFloat(((1 - i / n) * 10 + Math.random() * 2).toFixed(4)),
-    payStatus: (i < 5 ? "DISTRIBUTED" : i < 15 ? "PENDING" : "PENDING") as
-      | "DISTRIBUTED"
-      | "PENDING"
-      | "FAILED",
-    sybilScore: Math.floor(Math.random() * 30),
-    trend: Math.floor(Math.random() * 5) - 2,
-    rewardToken: "SOL",
-  }));
-
-const DEMO_ROWS = generateRows(50);
+// Static deterministic rows — no Math.random() to avoid SSR hydration mismatch
+const DEMO_ROWS = [
+  { rank: 1,  wallet: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU", score: 98420, volume: 1480000, rewardAmt: 11.82, payStatus: "DISTRIBUTED" as const, sybilScore: 84, trend:  0, rewardToken: "SOL" },
+  { rank: 2,  wallet: "3fAzTkmPgK1FmBEbgQjxjSXTe9rVQ8mN2LbF4d5HmD3P", score: 87100, volume: 1310000, rewardAmt: 10.47, payStatus: "DISTRIBUTED" as const, sybilScore: 76, trend:  1, rewardToken: "SOL" },
+  { rank: 3,  wallet: "9pTBJv3HyNs7A2VqG6YkZmXeL5MrRp8CwdFbK4NvDtU1", score: 74300, volume: 1120000, rewardAmt:  8.93, payStatus: "DISTRIBUTED" as const, sybilScore: 51, trend: -1, rewardToken: "SOL" },
+  { rank: 4,  wallet: "5sKJwPmN8HuT3aLdG9FbE2RqZvX6CnD4SyV7MkA1fBrQ", score: 62800, volume:  945000, rewardAmt:  7.54, payStatus: "DISTRIBUTED" as const, sybilScore: 43, trend:  2, rewardToken: "SOL" },
+  { rank: 5,  wallet: "AkjLP3mN8vT9bCd5KwR6Xq2Zy4Mu7Fs1nYoE8HgJpW2T", score: 55200, volume:  831000, rewardAmt:  6.62, payStatus: "DISTRIBUTED" as const, sybilScore: 38, trend:  0, rewardToken: "SOL" },
+  { rank: 6,  wallet: "BpRqL7mTu4dNk3Hj9Xs2Vy5Wa8Ci6Fg0oZnJmN1De3P", score: 48600, volume:  731000, rewardAmt:  5.83, payStatus: "PENDING"     as const, sybilScore: 18, trend: -1, rewardToken: "SOL" },
+  { rank: 7,  wallet: "CsJmN4pUv5eOl8Ij0Yt3Wz6Xb9Dr7Gh1qMkL2FaKe4R", score: 41900, volume:  631000, rewardAmt:  5.03, payStatus: "PENDING"     as const, sybilScore: 22, trend:  1, rewardToken: "SOL" },
+  { rank: 8,  wallet: "DtKnO5qVw6fPm9Jk1Zu4Xa7Yc0Es8Gi2rNlH3GbLf5S", score: 35100, volume:  528000, rewardAmt:  4.21, payStatus: "PENDING"     as const, sybilScore:  9, trend:  0, rewardToken: "SOL" },
+  { rank: 9,  wallet: "EuLoP6rWx7gQn0Kl2Av5Yb8Zd1Ft9Hj3sMmI4HcMg6T", score: 28400, volume:  427000, rewardAmt:  3.41, payStatus: "PENDING"     as const, sybilScore: 14, trend:  2, rewardToken: "SOL" },
+  { rank: 10, wallet: "FvMpQ7sXy8hRo1Lm3Bw6Zc9Ae2Gu0Ik4tNnJ5IdNh7U", score: 21600, volume:  325000, rewardAmt:  2.59, payStatus: "PENDING"     as const, sybilScore:  6, trend: -2, rewardToken: "SOL" },
+];
 
 export default function LeaderboardPage() {
   const [selectedEpoch, setSelectedEpoch] = useState(EPOCHS[0].id);
