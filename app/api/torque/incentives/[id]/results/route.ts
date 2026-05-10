@@ -7,9 +7,10 @@ import { getIncentiveResults } from "@/lib/torque/incentives";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
     const url = new URL(req.url);
     const mode = (url.searchParams.get("mode") ?? "preview") as
       | "preview"
@@ -17,7 +18,7 @@ export async function GET(
       | "download";
     const epochConfigId = url.searchParams.get("epochConfigId") ?? undefined;
 
-    const results = await getIncentiveResults(params.id, mode, epochConfigId);
+    const results = await getIncentiveResults(id, mode, epochConfigId);
     return NextResponse.json({ data: results });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
