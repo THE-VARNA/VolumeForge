@@ -17,7 +17,7 @@ const DEMO_EVENTS = [
   {
     id: "2", type: "custom" as const, wallet: "3fAzTkmPgK1FmBEbgQjxjSXTe9rVQ8mN2",
     eventName: "referral_click", amountUsd: null, timestamp: new Date(Date.now() - 120000),
-    data: { referrerCode: "DRIFT2025", referee: "9pTBJv3H..." },
+    data: { referrerCode: "DRIFT2026", referee: "9pTBJv3H..." },
   },
   {
     id: "3", type: "reward" as const, wallet: "9pTBJv3HyNs7A2VqG6YkZmXeL5MrRp8Cw",
@@ -80,11 +80,10 @@ export default function FeedPage() {
               <button
                 key={t}
                 onClick={() => setActiveType(t)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                  activeType === t
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${activeType === t
                     ? "bg-violet-500/20 border border-violet-500/30 text-violet-300"
                     : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
-                }`}
+                  }`}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
