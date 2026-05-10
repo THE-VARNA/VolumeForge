@@ -10,7 +10,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Solana](https://img.shields.io/badge/Solana-mainnet-9945ff?logo=solana)](https://solana.com)
 [![Torque](https://img.shields.io/badge/Torque-MCP-00d4ff)](https://platform.torque.so)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 
 </div>
 
@@ -220,6 +220,3 @@ npm run db:studio    # Prisma Studio (DB browser)
 
 ---
 
-## License
-
-MIT © 2026 THE-VARNA
