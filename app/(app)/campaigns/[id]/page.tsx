@@ -43,7 +43,7 @@ const DEMO_ROWS = [
   { wallet: "AkjLP3mN8vT9bCd5KwR6Xq2Zy4Mu7Fs1nYoE8HgJpW2T", rank: 5, score: 72000, volume: 128000, rewardAmt: 3.16, payStatus: "PENDING" as const, trend: 0 },
 ];
 
-export default function CampaignDetailPage({ params }: { params: { id: string } }) {
+export default function CampaignDetailPage() {
   return (
     <div className="space-y-6 max-w-5xl">
       {/* Back + header */}
