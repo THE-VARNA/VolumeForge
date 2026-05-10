@@ -85,9 +85,9 @@ export default function SettingsPage() {
             <label className="text-xs text-muted-foreground mb-2 block">Default epoch interval</label>
             <select value={defaultInterval} onChange={(e) => setDefaultInterval(e.target.value)}
               className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-200 outline-none">
-              <option value="DAILY">Daily</option>
-              <option value="WEEKLY">Weekly</option>
-              <option value="MONTHLY">Monthly</option>
+              <option className="bg-slate-900" value="DAILY">Daily</option>
+              <option className="bg-slate-900" value="WEEKLY">Weekly</option>
+              <option className="bg-slate-900" value="MONTHLY">Monthly</option>
             </select>
             <p className="text-[10px] text-muted-foreground mt-1">
               Note: evalDurationDays and interval are mutually exclusive in Torque (doc-enforced)

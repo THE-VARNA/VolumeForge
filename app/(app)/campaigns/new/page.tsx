@@ -82,7 +82,7 @@ export default function CampaignBuilderPage() {
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [formula, setFormula] = useState("N");
   const [formulaError, setFormulaError] = useState<string | null>(null);
-  const [rewardPool, setRewardPool] = useState(50);
+  const [rewardPool, setRewardPool] = useState<number | "">(50);
   const [rebatePercent, setRebatePercent] = useState(5);
   const [raffleBuckets, setRaffleBuckets] = useState([
     { amount: 10, count: 1 },
@@ -90,7 +90,7 @@ export default function CampaignBuilderPage() {
   ]);
   const [scheduleMode, setScheduleMode] = useState<"interval" | "duration">("interval");
   const [interval, setIntervalVal] = useState("WEEKLY");
-  const [duration, setDuration] = useState(7);
+  const [duration, setDuration] = useState<number | "">(7);
   const [campaignName, setCampaignName] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -376,7 +376,7 @@ export default function CampaignBuilderPage() {
                   <input
                     type="number"
                     value={rewardPool}
-                    onChange={(e) => setRewardPool(Number(e.target.value))}
+                    onChange={(e) => setRewardPool(e.target.value === "" ? "" : Number(e.target.value))}
                     className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm mono text-slate-200 outline-none focus:border-violet-500/50 transition-colors"
                   />
                 </div>
@@ -417,9 +417,9 @@ export default function CampaignBuilderPage() {
                       onChange={(e) => setIntervalVal(e.target.value)}
                       className="w-full px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-200 outline-none"
                     >
-                      <option value="DAILY">Daily</option>
-                      <option value="WEEKLY">Weekly</option>
-                      <option value="MONTHLY">Monthly</option>
+                      <option className="bg-slate-900" value="DAILY">Daily</option>
+                      <option className="bg-slate-900" value="WEEKLY">Weekly</option>
+                      <option className="bg-slate-900" value="MONTHLY">Monthly</option>
                     </select>
                   )}
 
@@ -428,7 +428,7 @@ export default function CampaignBuilderPage() {
                       <input
                         type="number"
                         value={duration}
-                        onChange={(e) => setDuration(Number(e.target.value))}
+                        onChange={(e) => setDuration(e.target.value === "" ? "" : Number(e.target.value))}
                         className="flex-1 px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm mono text-slate-200 outline-none"
                       />
                       <span className="text-sm text-muted-foreground">days</span>
