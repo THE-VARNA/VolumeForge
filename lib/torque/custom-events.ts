@@ -1,11 +1,12 @@
-// Torque Custom Events service
+// Torque Custom Events & Data Sources service
 // Full lifecycle per official docs:
 // 1. create_custom_event  — register schema (eventName, name, fields)
+//    NOTE: userPubkey and timestamp are NOT schema fields — always top-level on ingested events
 // 2. attach_custom_event  — attach to active project (customEventId)
 // 3. sendEvent            — POST to ingest.torque.so with x-api-key header
 //    payload: { userPubkey, timestamp, eventName, data: {...} }
-//    NOTE: userPubkey is top-level, NOT inside data
-// 4. list_project_events  — verify query-readiness (ingested ≥ once required)
+// 4. list_custom_events(scope: "project" | "owned") — shows query-readiness
+//    Must be ingested ≥ once before generate_incentive_query accepts it
 
 import { torqueClient } from "./client";
 import type {
@@ -40,19 +41,15 @@ export async function attachCustomEvent(params: {
   return torqueClient.post<{ success: boolean }>("/events/custom/attach", params);
 }
 
-// list all custom events across all projects
-export async function listCustomEvents(): Promise<TorqueCustomEvent[]> {
+// list_custom_events — scope controls what you see:
+//   "project" (default) — events attached to the active project
+//   "owned"  — all events you own across every project, attached or not
+// Events must be ingested ≥ once before they become query-ready for generate_incentive_query
+export async function listCustomEvents(
+  scope: "project" | "owned" = "project",
+): Promise<TorqueCustomEvent[]> {
   const res = await torqueClient.get<{ data: TorqueCustomEvent[] }>(
-    "/events/custom",
-  );
-  return res.data ?? [];
-}
-
-// list events for active project — shows query-readiness
-// Events must be ingested at least once before they become query-ready
-export async function listProjectEvents(): Promise<TorqueCustomEvent[]> {
-  const res = await torqueClient.get<{ data: TorqueCustomEvent[] }>(
-    "/events/project",
+    `/events/custom?scope=${scope}`,
   );
   return res.data ?? [];
 }

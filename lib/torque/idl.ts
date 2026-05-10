@@ -1,10 +1,16 @@
-// Torque IDL service
-// Implements the documented pipeline:
-// parse_idl → create_idl → generate_incentive_query (source: "idl_instruction")
-//   → [preview_incentive_query — optional creation-time test]
-//   → create_recurring_incentive
+// Torque Data Sources service
+// Covers: IDL pipeline, custom events, Dune event sources
 //
-// Also exposes: list_idls, create_instruction
+// IDL pipeline (doc-confirmed):
+//   create_idl (preview → commit) → list_idls → create_instruction
+//   → generate_incentive_query (source: "idl_instruction")
+//   → [preview_incentive_query — optional] → create_recurring_incentive
+//
+// Custom event pipeline:
+//   create_custom_event → attach_custom_event → sendEvent (≥1) → generate_incentive_query (source: "custom_event")
+//
+// Dune pipeline:
+//   register_dune_event_source → wait 24h → generate_incentive_query (source: "dune_query")
 
 import { torqueClient } from "./client";
 import type { TorqueIdl, TorqueInstruction } from "./types";
@@ -52,13 +58,14 @@ export async function listIdls(): Promise<TorqueIdl[]> {
   return res.data ?? [];
 }
 
-// generate_incentive_query with source: "idl_instruction"
-// Returns the SQL query string for use in create_recurring_incentive
-export async function generateIncentiveQuery(params: {
-  source: "idl_instruction";
-  instructionId: string;
-  metricField?: string; // which numeric field to aggregate
-}): Promise<{ sqlQuery: string }> {
+// generate_incentive_query — all three source types (doc-confirmed)
+// source: "idl_instruction" | "custom_event" | "dune_query"
+export async function generateIncentiveQuery(
+  params:
+    | { source: "idl_instruction"; instructionId: string; valueExpression?: string; filterExpression?: string }
+    | { source: "custom_event"; customEventId: string; valueExpression?: string; filterExpression?: string }
+    | { source: "dune_query"; duneEventQueryId: string; valueExpression?: string; filterExpression?: string },
+): Promise<{ sqlQuery: string }> {
   return torqueClient.post<{ sqlQuery: string }>(
     "/query/generate",
     params,

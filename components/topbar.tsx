@@ -1,8 +1,13 @@
 "use client";
 
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Bell, Plus } from "lucide-react";
+
+const WalletMultiButtonDynamic = dynamic(
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
 
 export function Topbar() {
   return (
@@ -22,7 +27,7 @@ export function Topbar() {
         <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-violet-500" />
       </button>
 
-      <WalletMultiButton
+      <WalletMultiButtonDynamic
         style={{
           background: "rgba(255,255,255,0.05)",
           border: "1px solid rgba(255,255,255,0.1)",
