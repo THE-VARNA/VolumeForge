@@ -144,12 +144,14 @@ export default function LandingPage() {
               >
                 Open Dashboard
               </Link>
-              <Link
-                href="/campaigns/new"
+              <a
+                href="https://www.loom.com/share/a1d80d7ec8654c958d0645f9aaaf027f"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 rounded-xl glass hover:bg-white/10 text-slate-200 font-semibold text-sm transition-all hover:scale-[1.02] shadow-lg border border-white/10"
               >
-                Build Campaign
-              </Link>
+                Watch Demo
+              </a>
             </motion.div>
           </motion.div>
         </div>
